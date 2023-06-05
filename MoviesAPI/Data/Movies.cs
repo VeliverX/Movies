@@ -2,11 +2,11 @@
 
 namespace MoviesAPI.Data
 {
-    public class Movie
+    public class Movies
     {
         [BsonId]
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
-        public string _id { get; set; }
+        public string _id { get; set; } 
         public string title { get; set; }
         public int year { get; set; }
         public string summary { get; set; }

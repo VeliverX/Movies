@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MoviesAPI.Data.Movie>
+﻿@model IEnumerable<MoviesAPI.Data.Movies>
 
 @{
     ViewData["Title"] = "Index";
@@ -34,18 +34,18 @@
                 @Html.DisplayFor(modelItem => item._id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.title)
+                    @Html.DisplayFor(modelItem => item.title)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.year)
+                    @Html.DisplayFor(modelItem => item.year)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.summary)
+                    @Html.DisplayFor(modelItem => item.summary)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Edit", "Edit", new {  id=item._id }) |
+                @Html.ActionLink("Details", "Details", new {  id=item._id }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item._id  })
             </td>
         </tr>
 }

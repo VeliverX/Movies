@@ -9,27 +9,27 @@ namespace MoviesAPI.Controlers
     {
 
         private readonly MoviesService _movieService;
-        public HomeController(MoviesService computerService)
+        public HomeController(MoviesService moviesService)
         {
-            _movieService = computerService;
+            _movieService = moviesService;
         }
 
         // GET: HomeController
         public ActionResult Index()
         {
-            var movies = _movieService.GetAllMovies();
+            var movies = _movieService.GetAllMovies().Result;
             return View(movies);
         }
 
         // GET: HomeController/Details/5
         public ActionResult Details(string id)
         {
-            var movies = _movieService.GetById(id);
+            var movies = _movieService.GetById(id).Result;
             return View(movies);
         }
 
         // GET: HomeController/Create
-        public ActionResult CreateAsync(Movie movie)
+        public ActionResult CreateAsync(Movies movie)
         {
             return View();
         }
@@ -37,7 +37,7 @@ namespace MoviesAPI.Controlers
         // POST: HomeController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(Movie movie)
+        public async Task<ActionResult> Create(Movies movie)
         {
             if (ModelState.IsValid)
             {
@@ -50,7 +50,7 @@ namespace MoviesAPI.Controlers
         // GET: HomeController/Edit/5
         public async Task<ActionResult> Edit(string id)
         {
-            Movie movie = await _movieService.GetById(id);
+            Movies movie = await _movieService.GetById(id);
             if (movie == null)
             {
                 return NotFound();
@@ -61,7 +61,7 @@ namespace MoviesAPI.Controlers
         // POST: HomeController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(string id, Movie movie)
+        public async Task<ActionResult> Edit(string id, Movies movie)
         {
             if (ModelState.IsValid)
             {
@@ -74,23 +74,22 @@ namespace MoviesAPI.Controlers
         // GET: HomeController/Delete/5
         public async Task<ActionResult> Delete(string id)
         {
-            await _movieService.Remove(id);
-            return RedirectToAction("Index");
+            Movies movie = await _movieService.GetById(id);
+            if (movie == null)
+            {
+                return NotFound();
+            }
+            return View(movie);
         }
 
         // POST: HomeController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> DeleteAsync(string id)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+                await _movieService.Remove(id);
+                return RedirectToAction("Index");
+
         }
     }
 }
